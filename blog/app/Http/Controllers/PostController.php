@@ -27,5 +27,18 @@ class PostController extends Controller
     $post->fill($input)->save();
     return redirect('/posts/' . $post->id);
     }
+    
+    public function edit(Post $post)
+{
+    return view('edit')->with(['post' => $post]);
+}          //解説では'posts/edit'だったが、今のブランチはpostsファイルが無いため不要になる
+
+public function updated(Post $post, PostRequest $request)
+{
+    $input = $request['post'];
+    $post->fill($input)->save();
+
+    return redirect('/posts/' . $post->id);
+}
 }
 ?>
