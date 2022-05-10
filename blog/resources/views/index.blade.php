@@ -9,14 +9,32 @@
      <body>
         <h1>Blog Name</h1>
         <p class='create'>[<a href='/posts/create'>create</a>]</p>
-        <div class='posts'>
-            @foreach ($posts as $post)
+    
+    　　@foreach ($posts as $post)
+            <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
+            @csrf
+            @method('DELETE')
+            <button type="button" onclick="deletePost({{ $post->id }})">delete</button>
+            </form>
+                <div class='posts'>
+                {{-- コメント --}}
                 <div class='post'>
                     <a href='/posts/{{ $post->id }}'><h2 class='title'>{{ $post->title }}</h2></a>
                     <p class='body'>{{ $post->body }}</p>
                 </div>
-            @endforeach
+             
+    　  @endforeach
         </div>
+        <script>
+        function deletePost(id){
+    
+            if (window.confirm('削除すると復元できません。\n 本当に削除しますか？')){
+                document.getElementById(`form_${id}`).submit();
+            }
+            
+        }
+        </script>
+        
         <div class='paginate'>
             {{ $posts->links() }}
         </div>
